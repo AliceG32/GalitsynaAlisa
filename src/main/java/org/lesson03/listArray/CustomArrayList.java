@@ -4,14 +4,14 @@ public class CustomArrayList<T> implements CustomArrayListInterface<T> {
   private final int SIZE = 10;
   private final int GROW_SIZE = 10;
   private Object[] array = new Object[SIZE];
-  private int current_size = 0;
+  private int currentSize = 0;
 
   @Override
   public String toString() {
     StringBuilder resultString = new StringBuilder("[");
-    if (current_size > 0) {
+    if (currentSize > 0) {
       resultString.append(array[0].toString());
-      for (int i = 1; i < current_size; i++) {
+      for (int i = 1; i < currentSize; i++) {
         resultString.append(", ").append(array[i].toString());
       }
     }
@@ -21,23 +21,23 @@ public class CustomArrayList<T> implements CustomArrayListInterface<T> {
 
   private void checkNull(Object object) {
     if (object == null ) {
-      throw new NullPointerException();
+      throw new IllegalArgumentException();
     }
   }
 
   private void resize(int length) {
     Object[] newArray = new Object[length];
-    System.arraycopy(array, 0, newArray, 0, current_size);
+    System.arraycopy(array, 0, newArray, 0, currentSize);
     array = newArray;
   }
 
   private boolean isEmpty() {
-    return current_size == 0;
+    return currentSize == 0;
   }
 
   private void shiftLeft(int index) {
     if (!isEmpty()) {
-      System.arraycopy(array, index + 1, array, index, current_size - index);
+      System.arraycopy(array, index + 1, array, index, currentSize - index);
     }
   }
 
@@ -45,17 +45,17 @@ public class CustomArrayList<T> implements CustomArrayListInterface<T> {
   public void add(T item) {
     checkNull(item);
 
-    if(current_size == array.length) {
-      resize(current_size + GROW_SIZE);
+    if(currentSize == array.length) {
+      resize(currentSize + GROW_SIZE);
     }
-    array[current_size] = item;
-    current_size++;
+    array[currentSize] = item;
+    currentSize++;
   }
 
   @Override
   public T get(int index) {
     if (!isEmpty()) {
-      return (T) array[current_size - 1];
+      return (T) array[currentSize - 1];
     }
 
     throw new IndexOutOfBoundsException();
@@ -63,10 +63,9 @@ public class CustomArrayList<T> implements CustomArrayListInterface<T> {
 
   @Override
   public void remove(int index) {
-    if (index < current_size - 1) {
+    if (index < currentSize - 1) {
       shiftLeft(index);
     }
-
-    current_size--;
+    currentSize--;
   }
 }
