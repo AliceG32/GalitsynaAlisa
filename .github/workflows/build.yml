@@ -1,4 +1,4 @@
-name: Output current date job
+name: Java CI with Maven
 
 on:
   push:
@@ -8,9 +8,16 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Print message to console
-        run: |
-          current_date_time=$(date)
-          echo "Current date and time: $current_date_time"
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn verify
